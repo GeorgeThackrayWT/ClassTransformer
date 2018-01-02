@@ -118,22 +118,14 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="textBox1.Text" xml:space="preserve">
-    <value>public class IncomeEditDTOSource2 :testbase
-                        {
-                            public DateTime? SODate { get; set; }
-
-                            public int ID { get; set; }
-
-                            public DateTime StartDate { get; set; }
-      
-                            public bool IsProject { get; set; }
-
-                            public string Description { get; set; }
-        
-                            public double BudgetNet { get; set; }
-                
-                            
-                
-                        }</value>
+    <value>public class IncomeDto
+{
+ public DateTime? SODate { get; set; }
+ public int ID { get; set; }
+ public DateTime StartDate { get; set; }       
+ public bool IsProject { get; set; } 
+ public string Description { get; set; }        
+ public double BudgetNet { get; set; }
+}</value>
   </data>
 </root>
