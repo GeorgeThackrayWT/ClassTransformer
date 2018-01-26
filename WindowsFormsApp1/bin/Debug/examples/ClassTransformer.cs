@@ -1,55 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using DataObjects;
 
 namespace DtoParser
-{
-    public class IncomeEditDTOSource2BO : ModelBase<IncomeEditDTOSource2BO>
-    {
-
-        public IncomeEditDTOSource2BO()
-        {
-
-            this.Validator = e =>
-            {
-
-            };
-            IsNew = true;
-            IsDirty = true;
-            IsValid = false;
-        }
-
-        public Property<DateTime?> SODate { get; set; } = new Property<DateTime?>() { Value = DateTime.Today, Original = DateTime.Today };
-
-        public Property<int> ID { get; set; } = new Property<int>() { Value = 0, Original = 0 };
-
-        public Property<DateTime> StartDate { get; set; } = new Property<DateTime>() { Value = DateTime.Today, Original = DateTime.Today };
-
-
-        public Property<bool> IsProject { get; set; } = new Property<bool>() { Value = false, Original = false };
-
-        public Property<string> Description { get; set; } = new Property<string>() { Value = string.Empty, Original = string.Empty };
-
-        public Property<double> BudgetNet { get; set; } = new Property<double>() { Value = 0.0, Original = 0.0 };
-
-
-
-
-
-        public void Make(IncomeEditDTOSource2 test)
-        {
-            this.SODate = Property<DateTime?>.Make(test.SODate);
-            this.ID = Property<int>.Make(test.ID);
-            this.StartDate = Property<DateTime>.Make(test.StartDate);
-            this.IsProject = Property<bool>.Make(test.IsProject);
-            this.Description = Property<string>.Make(test.Description);
-            this.BudgetNet = Property<double>.Make(test.BudgetNet);
-        }//endofmake
-    }//endofclass
-
-
-
+{   
     public class ClassTransformer  
     {
         public string OldName { get; set; }
@@ -107,6 +61,12 @@ namespace DtoParser
                 if (MakeDtoLine(l, "bool")) result = true;
 
                 if (MakeDtoLine(l, @"bool?")) result = true;
+
+                if (MakeDtoLine(l, @"ComboBoxValue")) result = true;
+
+                if (MakeDtoLine(l, @"CATPlotObj")) result = true;
+
+                if (MakeDtoLine(l, @"CATPlotObjBool")) result = true;
 
                 if (l.Contains("public class"))
                 {
@@ -188,12 +148,20 @@ namespace DtoParser
 
                 if (MakeListLine(l, @"bool?")) result = true;
 
+                if (MakeListLine(l, "ComboBoxValue")) result = true;
 
+                if (MakeListLine(l, "CATPlotObj")) result = true;
+
+                if (MakeListLine(l, "CATPlotObjBool")) result = true;
 
                 if (!result)
                     TargetLines.Add(l);
             }
 
+            TargetLines.Add("");
+            TargetLines.Add("");
+
+            TargetLines.Add("public int RecordId => Id;");
 
             TargetLines.Add("");
             TargetLines.Add("");
@@ -205,14 +173,14 @@ namespace DtoParser
             TargetLines.Add("");
 
 
-            TargetLines.AddRange(CreateMakeFromExistingMethod(MakeLines, OldName));
+            TargetLines.AddRange(CreateMakeFromExistingMethod(MakeLines, NewName));
 
 
             TargetLines.Add("");
             TargetLines.Add("");
 
 
-            TargetLines.AddRange(CreateMakeMethod(MakeLines, OldName));
+            TargetLines.AddRange(CreateMakeMethod(MakeLines, OldName,false));
 
             TargetLines.Add("");
             TargetLines.Add("");
@@ -227,9 +195,6 @@ namespace DtoParser
 
             TargetLines.Add("}//endofclass");
         }
-
-
-
 
         public void CreateEditClass()
         {
@@ -286,9 +251,20 @@ namespace DtoParser
 
                 if (MakePropertyLine(l, @"bool?", @"Value = false, Original = false")) result = true;
 
+                if (MakePropertyLine(l, @"ComboBoxValue", @"Value = null, Original = null")) result = true;
+
+                if (MakePropertyLine(l, @"CATPlotObj", @"Value = null, Original = null")) result = true;
+
+                if (MakePropertyLine(l, @"CATPlotObjBool", @"Value = null, Original = null")) result = true;
+
                 if (!result)
                     TargetLines.Add(l);
             }
+
+            TargetLines.Add("");
+            TargetLines.Add("");
+
+            TargetLines.Add("public int RecordId => Id.Value;");
 
             TargetLines.Add("");
             TargetLines.Add("");
@@ -300,14 +276,14 @@ namespace DtoParser
             TargetLines.Add("");
 
 
-            TargetLines.AddRange(CreateMakeFromExistingMethod(MakeLines, OldName));
+            TargetLines.AddRange(CreateMakeFromExistingMethod(MakeLines, NewName));
 
 
             TargetLines.Add("");
             TargetLines.Add("");
 
 
-            TargetLines.AddRange(CreateMakeMethod(MakeLines, OldName));
+            TargetLines.AddRange(CreateMakeMethod(MakeLines, OldName,true));
 
 
             TargetLines.Add("");
@@ -334,18 +310,31 @@ namespace DtoParser
 
             returnLines.AddRange(makeLines);
 
+            returnLines.Add("return returnVal;");
+
             returnLines.Add("}//ConvertToDto");
 
             return returnLines;
         }
 
-        private List<string> CreateMakeMethod(List<string> makeLines, string paramType)
+        private List<string> CreateMakeMethod(List<string> makeLines, string paramType, bool editClass)
         {
+            var padding = "      ";
             var returnLines = new List<string> { "public void Make(" + paramType + " test)", "{" };
 
             returnLines.AddRange(makeLines);
-          
-            returnLines.Add(@"_dto = test;");
+
+            if (editClass)
+            {
+                returnLines.Add(padding + @"this.Id = Property<int>.Make(test.Id);");
+            }
+            else
+            { 
+                returnLines.Add(padding + @"_original.Id = test.Id;");
+                returnLines.Add(padding + @"_current.Id = test.Id;");
+            }
+
+            returnLines.Add(padding + @"_dto = test;");
 
             returnLines.Add("}//endoffirstmake");
 
@@ -429,7 +418,7 @@ namespace DtoParser
 
             var returnLines = new List<string>
             {
-                padding+"public void Clone()",
+                padding+"public " + paramType + " Clone()",
                 padding+"{",
                 padding+" return new " + paramType + "() {"
             };
@@ -500,10 +489,10 @@ namespace DtoParser
             var padding = "      ";
 
             TargetLines.AddRange(new List<string>{
-                @"public class " + NewName + " : ModelBase<" + NewName + ">",
+                @"public class " + NewName + " : PropertyBase<" + NewName + ">, IDuplicate",
                 @"{",
                 @"",
-                padding+ @"private " + OldName + "_dto;",
+                padding+ @"private " + OldName + " _dto;",
                 @"",
                 @"",
                 padding+ @"public " + NewName + "()",
@@ -530,10 +519,10 @@ namespace DtoParser
 
             TargetLines.AddRange(new List<string>
             {
-                @"public class " + NewName + " : ListObj<" + NewName + ">, INotifyPropertyChanged, IRecord",
+                @"public class " + NewName + " : ListObj<" + OldName + ">, INotifyPropertyChanged, IRecord, IDuplicate",
                 @"{",
                 @"",
-                padding+ @"private " + OldName + "_dto;",
+                padding+ @"private " + OldName + " _dto;",
                 @"",
                 @"",
                 padding+ @"public " + NewName + "()",
@@ -690,7 +679,7 @@ namespace DtoParser
                     searchType = searchType.Replace("questionmark", @"?");
 
 
-                    CloneLines.Add(padding + padding+ match.Value + " = this." + match.Value + ";");
+                    CloneLines.Add(padding + padding+ match.Value + " = this." + match.Value + ",");
               
                     return true;
                 }

@@ -45,9 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BindableBase.cs" />
-    <Compile Include="Class1.cs" />
-    <Compile Include="ClassTransformer.cs">
+    <Compile Include="examples\BindableBase.cs" />
+    <Compile Include="examples\Property.cs" />
+    <Compile Include="examples\ClassTransformer.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Form1.cs">
@@ -56,11 +56,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="IChangeTracking.cs" />
-    <Compile Include="IModel.cs" />
-    <Compile Include="IncomeEditDTO2.cs" />
-    <Compile Include="IncomeEditDTOSource2.cs" />
-    <Compile Include="ModelBase.cs" />
+    <Compile Include="examples\IChangeTracking.cs" />
+    <Compile Include="examples\IModel.cs" />
+    <Compile Include="examples\exampleoutput.cs" />
+    <Compile Include="examples\example_dto.cs" />
+    <Compile Include="examples\ModelBase.cs" />
+    <Compile Include="IncomeEditDTOSource2BO.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -88,5 +89,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

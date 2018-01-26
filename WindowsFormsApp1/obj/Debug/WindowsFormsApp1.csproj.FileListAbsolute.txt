@@ -20,3 +20,14 @@ C:\Users\george\Documents\Repos\classtransformer\ClassTransformer\WindowsFormsAp
 C:\Users\george\Documents\Repos\classtransformer\ClassTransformer\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.CoreCompileInputs.cache
 C:\Users\george\Documents\Repos\classtransformer\ClassTransformer\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
 C:\Users\george\Documents\Repos\classtransformer\ClassTransformer\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
+C:\Repos\ClassGenerator\ClassTransformer\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe.config
+C:\Repos\ClassGenerator\ClassTransformer\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe
+C:\Repos\ClassGenerator\ClassTransformer\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.pdb
+C:\Repos\ClassGenerator\ClassTransformer\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csprojResolveAssemblyReference.cache
+C:\Repos\ClassGenerator\ClassTransformer\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Form1.resources
+C:\Repos\ClassGenerator\ClassTransformer\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Properties.Resources.resources
+C:\Repos\ClassGenerator\ClassTransformer\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.GenerateResource.Cache
+C:\Repos\ClassGenerator\ClassTransformer\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.CoreCompileInputs.cache
+C:\Repos\ClassGenerator\ClassTransformer\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
+C:\Repos\ClassGenerator\ClassTransformer\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
+C:\Repos\ClassGenerator\ClassTransformer\WindowsFormsApp1\bin\Debug\examples\ClassTransformer.cs
