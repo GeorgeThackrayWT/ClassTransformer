@@ -167,7 +167,7 @@ namespace DtoParser
             TargetLines.Add("");
 
 
-            TargetLines.AddRange(CreateConvertToDto(ConvertToDtoLines, OldName));
+            TargetLines.AddRange(CreateConvertToDto(ConvertToDtoLines, OldName, "EditList"));
 
             TargetLines.Add("");
             TargetLines.Add("");
@@ -270,7 +270,7 @@ namespace DtoParser
             TargetLines.Add("");
 
 
-            TargetLines.AddRange(CreateConvertToDto(ConvertToDtoLines, OldName));
+            TargetLines.AddRange(CreateConvertToDto(ConvertToDtoLines, OldName, "Edit"));
 
             TargetLines.Add("");
             TargetLines.Add("");
@@ -302,13 +302,22 @@ namespace DtoParser
 
         }
 
-        private List<string> CreateConvertToDto(List<string> makeLines, string paramType)
+        private List<string> CreateConvertToDto(List<string> makeLines, string paramType, string type)
         {
             var returnLines = new List<string> { "public "+paramType+" ConvertToDto()", "{" };
 
             returnLines.Add(@"var returnVal = _dto.Clone();");
 
             returnLines.AddRange(makeLines);
+
+
+            if(type =="EditList")
+                returnLines.Add("returnVal.Id = this.Id;");
+
+            if(type == "Edit")
+                returnLines.Add("returnVal.Id = Id.Value;");
+
+
 
             returnLines.Add("return returnVal;");
 
